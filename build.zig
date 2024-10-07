@@ -11,6 +11,9 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
+    lib.linkLibC();
+    lib.linkSystemLibrary("sqlite3");
+
     const exe = b.addExecutable(.{
         .name = "sqlfs",
         .root_source_file = b.path("src/main.zig"),
@@ -35,6 +38,9 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+
+    lib_unit_tests.linkLibC();
+    lib_unit_tests.linkSystemLibrary("sqlite3");
 
     const exe_unit_tests = b.addTest(.{
         .root_source_file = b.path("src/main.zig"),
