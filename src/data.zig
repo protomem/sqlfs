@@ -4,7 +4,7 @@ const log = std.log;
 
 const sql = @cImport(@cInclude("sqlite3.h"));
 
-pub const Storage = struct {
+pub const PersistentStorage = struct {
     const Self = @This();
 
     const Error = error{
@@ -45,11 +45,11 @@ pub const Storage = struct {
     }
 };
 
-test "storage: open and close" {
+test "persistent-storage: open and close" {
     try std.fs.cwd().makeDir("./tmp");
     defer std.fs.cwd().deleteTree("./tmp") catch unreachable;
 
-    const store = try Storage.open("./tmp/store.data");
+    const store = try PersistentStorage.open("./tmp/store.data");
     defer store.close();
 
     try store.check();
